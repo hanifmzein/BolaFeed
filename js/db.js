@@ -1,5 +1,5 @@
-var dbPromised = idb.open("bola-feed", 1, function(upgradeDb) {
-  var clubObjectStore = upgradeDb.createObjectStore("clubs", {
+const dbPromised = idb.open("bola-feed", 1, function(upgradeDb) {
+  const clubObjectStore = upgradeDb.createObjectStore("clubs", {
     keyPath: "id"
   });
   clubObjectStore.createIndex("club_name", "name", {
@@ -10,8 +10,8 @@ var dbPromised = idb.open("bola-feed", 1, function(upgradeDb) {
 function saveForLater(club) {
   dbPromised
     .then(function(db) {
-      var tx = db.transaction("clubs", "readwrite");
-      var store = tx.objectStore("clubs");
+      const tx = db.transaction("clubs", "readwrite");
+      const store = tx.objectStore("clubs");
       store.add(club);
       return tx.complete;
     })
@@ -24,11 +24,11 @@ function getAll() {
   return new Promise(function(resolve, reject) {
     dbPromised
       .then(function(db) {
-        var tx = db.transaction("clubs", "readonly");
-        var store = tx.objectStore("clubs");
+        const tx = db.transaction("clubs", "readonly");
+        const store = tx.objectStore("clubs");
         return store.getAll();
       })
-      .then(function(clubs) {
+      .then((clubs) => {
             console.log("CLUBS " +clubs);
         resolve(clubs);
       });
@@ -38,10 +38,10 @@ function getAll() {
 function getAllByTitle(name) {
   dbPromised
     .then(function(db) {
-      var tx = db.transaction("clubs", "readonly");
-      var store = tx.objectStore("clubs");
-      var titleIndex = store.index("club_name");
-      var range = IDBKeyRange.bound(name, name + "\uffff");
+        const tx = db.transaction("clubs", "readonly");
+        const store = tx.objectStore("clubs");
+        const titleIndex = store.index("club_name");
+        const range = IDBKeyRange.bound(name, name + "\uffff");
       return titleIndex.getAll(range);
     })
     .then(function(club) {
@@ -53,8 +53,8 @@ function getById(id) {
   return new Promise(function(resolve, reject) {
     dbPromised
       .then(function(db) {
-        var tx = db.transaction("clubs", "readonly");
-        var store = tx.objectStore("clubs");
+        const tx = db.transaction("clubs", "readonly");
+        const store = tx.objectStore("clubs");
         return store.get(id);
       })
       .then(function(club) {

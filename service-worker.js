@@ -1,4 +1,4 @@
-const CACHE_NAME = "firstpwa-v1";
+const CACHE_NAME = "bolafeed-v1";
 var urlsToCache = [
   "/",
   "/nav.html",

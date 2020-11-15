@@ -1,6 +1,6 @@
-var base_url = "https://api.football-data.org/v2/";
-var id_klasmen = "2021";
-var api_token = "35277e5147a043eb8057e5e88c35e5e5";
+const base_url = "https://api.football-data.org/v2/";
+const id_klasmen = "2021";
+const api_token = "35277e5147a043eb8057e5e88c35e5e5";
 
 const fetchApi = url => {
     return fetch(url, {
@@ -11,7 +11,7 @@ const fetchApi = url => {
 }
 
 // Blok kode yang akan di panggil jika fetch berhasil
-function status(response) {
+const status = (response) => {
   if (response.status !== 200) {
     console.log("Error : " + response.status);
     // Method reject() akan membuat blok catch terpanggil
@@ -23,12 +23,12 @@ function status(response) {
 }
 
 // Blok kode untuk memparsing json menjadi array JavaScript
-function json(response) {
+const json = (response) => {
   return response.json();
 }
 
 // Blok kode untuk meng-handle kesalahan di blok catch
-function error(error) {
+const error = error => {
   // Parameter error berasal dari Promise.reject()
   console.log("Error : " + error);
 }
@@ -36,9 +36,10 @@ function error(error) {
 function getKlasmen(){
     if ("caches" in window) {
         caches.match(base_url + "competitions/" + id_klasmen + "/standings")
-            .then(function (response) {
+            .then( (response) => {
                 if (response) {
-                    response.json().then(function (data) {
+                    response.json().then( (data) => {
+                        console.log("GETKLASMEN "+data);
                         innerHTML(data);
                     });
                 }
@@ -48,16 +49,16 @@ function getKlasmen(){
     fetchApi(base_url + "competitions/" + id_klasmen + "/standings")
         .then(status)
         .then(json)
-        .then(function (data) {
+        .then( (data) => {
             innerHTML(data);
         })
         .catch(error);
 }
 
 function innerHTML(data) {
-    var klasmenHTML = "";
-    var rowKlasmen = "";
-    data.standings[0].table.forEach(function (tim){
+    let klasmenHTML = "";
+    let rowKlasmen = "";
+    data.standings[0].table.forEach( (tim) => {
         rowKlasmen += `
             <tr>
                 <td class="center-align">${tim.position}</td>
@@ -86,7 +87,7 @@ function innerHTML(data) {
 
     klasmenHTML = `
         <div class="card">
-            <table class="striped">
+            <table class="striped responsive-table">
                 <thead>
                     <tr>
                         <th class="center-align">Position</th>
@@ -111,7 +112,7 @@ function innerHTML(data) {
 
 function innerDetailHTML(data){
     // Sisipkan komponen card ke dalam elemen dengan id #content
-    var info = `
+    let info = `
         <tr>
             <td>Name</td>
             <td>${data.name}</td>
@@ -138,7 +139,7 @@ function innerDetailHTML(data){
         </tr>
     `;
 
-    var squad = "";
+    let squad = "";
     data.squad.forEach(rows => {
         row = `
             <tr>
@@ -149,28 +150,26 @@ function innerDetailHTML(data){
         squad += row;
     })
 
-    var logoClub = `
+    document.getElementById("logoTim").innerHTML = `
         <div class="container center center-align">
             <img src=${data.crestUrl} alt="lambang club" >
         </div>
     `;
-
-    document.getElementById("logoTim").innerHTML = logoClub;
     document.getElementById("infoClub").innerHTML = info;
     document.getElementById("squadClub").innerHTML = squad;
 }
 
 function getClubById() {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         // Ambil nilai query parameter (?id=)
-        var urlParams = new URLSearchParams(window.location.search);
-        var idParam = urlParams.get("id");
+        let urlParams = new URLSearchParams(window.location.search);
+        let idParam = urlParams.get("id");
 
         if ("caches" in window) {
             caches.match(base_url + "teams/" + idParam).then(function(response) {
 
                 if (response) {
-                    response.json().then(function(data) {
+                    response.json().then((data) => {
                         resolve(data);
                         innerDetailHTML(data);
                     });
@@ -181,7 +180,7 @@ function getClubById() {
         fetchApi(base_url + "teams/" + idParam)
             .then(status)
             .then(json)
-            .then(function(data) {
+            .then((data) => {
                 resolve(data);
                 innerDetailHTML(data);
             });
@@ -190,13 +189,12 @@ function getClubById() {
 
 
 function getFavoriteClub() {
-    getAll().then(function(clubs) {
+    getAll().then((clubs) => {
         console.log(clubs);
         // Menyusun komponen card artikel secara dinamis
-        var clubsHTML = "";
-        clubs.forEach(function(club) {
+        let clubsHTML = "";
+        clubs.forEach((club) => {
             console.log("CLUB : "+club);
-
             clubsHTML += `
                 <div class="card">
                     <div class="card-image">
