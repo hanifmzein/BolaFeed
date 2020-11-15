@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dicodingacademy/a74-mpwa-labs.git"
+    "url": "https://github.com/hanifmzein/BolaFeed.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dicodingacademy/a74-mpwa-labs/issues"
+    "url": "https://github.com/hanifmzein/BolaFeed.git"
   },
-  "homepage": "https://github.com/dicodingacademy/a74-mpwa-labs#readme"
+  "homepage": "https://github.com/hanifmzein/BolaFeed.git"
 }

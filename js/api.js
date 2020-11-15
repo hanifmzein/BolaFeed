@@ -86,7 +86,7 @@ function innerHTML(data) {
 
     klasmenHTML = `
         <div class="card">
-            <table class="striped responsive-table">
+            <table class="striped">
                 <thead>
                     <tr>
                         <th class="center-align">Position</th>
